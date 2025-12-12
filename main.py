@@ -1,5 +1,6 @@
+import sys
 from stats import *
-
+from pathlib import Path
 
 
 def get_book_text(filepath):
@@ -18,8 +19,18 @@ def print_report(filepath, num_words, char_report):
     print("============= END ===============")
 
     
-def main():
-    filepath = "./books/frankenstein.txt"
+def main(argv):
+    if len(argv) < 2 or len(argv) > 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
+    filepath = Path(argv[1])
+
+    if not filepath.is_file():
+        print(f"Error: Could not find file \'{filepath}\'")
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
     book_text = get_book_text(filepath)
     num_words = count_words(book_text)
     char_count = count_chars(book_text)
@@ -27,4 +38,4 @@ def main():
     print_report(filepath, num_words, char_report)
     
 
-main()
+main(sys.argv)
